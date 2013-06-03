@@ -1,4 +1,11 @@
 Lunarquest::Application.routes.draw do
+  resources :words do 
+    get 'translate', :on => :collection
+  end
+  resources :languages
+
+  root to: 'words#translate'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

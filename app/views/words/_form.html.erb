@@ -1,0 +1,21 @@
+<%= simple_form_for setup(@word,action), html: { class: 'form-horizontal' } do |w_builder| %>
+
+  <% if @word.errors.any? %>
+    <%= render 'word_errors' %>
+  <% end %>
+
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Word</legend>
+    <%= w_builder.input :value, label: "Word" %>
+    <%= w_builder.association :language %>    
+    <%= w_builder.simple_fields_for :translations do |t_builder| %>
+      <%= render 'translation_fields', f: t_builder %>
+    <% end -%>  
+    <div class="form-actions">      
+      <%= link_to_add_translation_row("+ Add meaning", w_builder, :translations) if action=='edit' %>
+      <%= w_builder.submit nil, :class => 'btn btn-primary', id: 'create_or_update_word_btn' %>
+      <%= link_to 'Cancel', words_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+
+<% end %>

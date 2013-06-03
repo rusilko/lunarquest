@@ -1,20 +1,28 @@
 class Translation < ActiveRecord::Base
 
-  attr_accessible :original_word_id, :translated_word_id, :translated_word
+  attr_accessible :original_word_id, :translated_word_id, :translated_word, :translated_word_attributes
 
-  belongs_to :original_word, class_name: "Word"
-  belongs_to :translated_word, class_name: "Word"
+  belongs_to :original_word, class_name: "Word", autosave: true
+  belongs_to :translated_word, class_name: "Word", autosave: true
   # TO-DO Check if statement belowe are any helpful for the data model
   # belongs_to :original_language, class_name: "Language"
   # belongs_to :translated_language, class_name: "Language"
 
-  after_initialize :set_language_ids
+  accepts_nested_attributes_for :translated_word
   
-  validates :original_word_id, presence: true,
-                               uniqueness: { scope: [ :original_language_id, :translated_word_id, :translated_language_id] }
-  validates :translated_word_id, presence: true
-  validates :original_language_id, presence: true
-  validates :translated_language_id, presence: true
+  before_validation :set_language_ids
+  
+  validates :original_word_id, uniqueness: { scope: [ :original_language_id, :translated_word_id, :translated_language_id] }
+ 
+  # TO-DO - validations below are commented out because there are problems 
+  # with racing conditions when using accepts_nested_attributes_for
+  # Some solutions: http://stackoverflow.com/questions/14140994/failing-validations-in-join-model-when-using-has-many-through
+  # for now translations should be created only by association build. 
+  #
+  # validates :translated_word_id, presence: true
+  # validates :original_language_id, presence: true
+  # validates :translated_language_id, presence: true
+ 
   # TO-DO needs a validator of "uniquness in scope of reversed translations", probably a custom validator.
   # so we don't have records like:
   # [pies, polski, dog, angielski]
@@ -42,7 +50,8 @@ class Translation < ActiveRecord::Base
   end
 
   def set_language_ids
-    self.original_language_id     = self.original_word.language_id
-    self.translated_language_id   = self.translated_word.language_id
+    self.original_language_id     = self.original_word.try(:language_id)
+    self.translated_language_id   = self.translated_word.try(:language_id)
   end
+
 end

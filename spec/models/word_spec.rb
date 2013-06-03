@@ -53,15 +53,6 @@ describe Word do
   
   it { should be_valid }
 
-  # Accessible attributes
-  describe "accesible attributes" do
-    it "should not allow access to language_id attribute" do
-      expect do
-        Word.new(language_id: 2)
-      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
-    end
-  end
-  
   # Validations
 
   describe "when value is not present" do    

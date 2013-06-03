@@ -34,3 +34,5 @@ group :assets do
   gem 'therubyracer'
 end
 
+
+gem "mocha", :group => :test

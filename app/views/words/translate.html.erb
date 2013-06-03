@@ -1,0 +1,27 @@
+<% title "Translate" %>
+
+<%= form_tag translate_words_path, class: "form-search", method: 'get' do %>
+  <%= search_field_tag :query, params[:query], class: "search-query", placeholder: 'Type in word' %>
+  <%= select_tag :language_from, 
+                 options_from_collection_for_select(@languages, "id", "name", params[:language_from]), 
+                 prompt: "From:" %>
+ <%= select_tag :language_to, 
+                options_from_collection_for_select(@languages, "id", "name", params[:language_to]), 
+                prompt: "To:" %>
+  <%= submit_tag "Translate", name: nil, class: "btn btn-success" %>
+<% end %>
+
+<% unless params[:query].blank? || params[:language_from].blank? || params[:language_to].blank? %>
+  <% unless @translations.empty? %>
+    <h3>Translations in <%= Language.find(params[:language_to]).name %> for "<%= params[:query] %>":</h3>
+    <div>
+      <ul>
+        <% @translations.each do |t| %>
+          <li><%= t %>
+        <% end -%>
+      </ul> 
+    </div>
+  <% else -%>
+    <p>Sorry, no translations found :(</p>
+  <% end -%>
+<% end -%>
