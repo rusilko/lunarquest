@@ -23,6 +23,7 @@ group :test do
   # System-dependent gems
   gem 'rb-inotify', '0.9.0'
   gem 'libnotify', '0.8.0'  
+  gem 'faker'
 end
 
 group :assets do
