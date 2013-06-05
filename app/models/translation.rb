@@ -13,10 +13,9 @@ class Translation < ActiveRecord::Base
   before_validation :set_language_ids
   before_validation :check_for_double_errors, only: [:translated_word]
   
-  # TO-DO - validations below are commented out because there are problems 
-  # with racing conditions when using accepts_nested_attributes_for
+  # there were problems with racing conditions when using accepts_nested_attributes_for
   # Some solutions: http://stackoverflow.com/questions/14140994/failing-validations-in-join-model-when-using-has-many-through
-  # for now translations should be created only by association build. 
+  # Comment left for educational purposes :)
   #
   validates :word, presence: true
   validates :translated_word, presence: true
