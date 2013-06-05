@@ -9,11 +9,14 @@ module WordsHelper
     link_to(name, '#', id: "add_transl_btn", class: "btn btn-success add_transl_btn", data: {id: id, fields: fields.gsub("\n", "")})   
   end
 
-  def setup(word,action)    
-    unless word.errors.any? || action == 'new'
-      # prepare translation and translated word
+  def setup(word)    
+    unless word.errors.any?
       word.translations.build.build_translated_word
     end
     word
+  end
+
+  def word_field_starting_value(params)    
+    params[:word] ? params[:word][:value] : params[:w]
   end
 end

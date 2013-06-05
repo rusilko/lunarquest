@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20130601145725) do
   add_index "languages", ["name"], :name => "index_languages_on_name", :unique => true
 
   create_table "translations", :force => true do |t|
-    t.integer  "original_word_id",       :null => false
+    t.integer  "word_id",                :null => false
     t.integer  "original_language_id",   :null => false
     t.integer  "translated_word_id"
     t.integer  "translated_language_id"
@@ -31,13 +31,13 @@ ActiveRecord::Schema.define(:version => 20130601145725) do
     t.datetime "updated_at",             :null => false
   end
 
-  add_index "translations", ["original_word_id", "original_language_id", "translated_language_id"], :name => "index_translations_original_to_translated"
-  add_index "translations", ["original_word_id", "original_language_id"], :name => "index_translations_word_in_original_language"
-  add_index "translations", ["original_word_id", "translated_word_id", "original_language_id", "translated_language_id"], :name => "index_translations_record_uniquness", :unique => true
-  add_index "translations", ["original_word_id"], :name => "index_translations_on_original_word_id"
   add_index "translations", ["translated_word_id", "translated_language_id", "original_language_id"], :name => "index_translations_translated_to_original"
   add_index "translations", ["translated_word_id", "translated_language_id"], :name => "index_translations_word_in_translated_language"
   add_index "translations", ["translated_word_id"], :name => "index_translations_on_translated_word_id"
+  add_index "translations", ["word_id", "original_language_id", "translated_language_id"], :name => "index_translations_original_to_translated"
+  add_index "translations", ["word_id", "original_language_id"], :name => "index_translations_word_in_original_language"
+  add_index "translations", ["word_id", "translated_word_id", "original_language_id", "translated_language_id"], :name => "index_translations_record_uniquness", :unique => true
+  add_index "translations", ["word_id"], :name => "index_translations_on_word_id"
 
   create_table "words", :force => true do |t|
     t.string   "value",       :null => false

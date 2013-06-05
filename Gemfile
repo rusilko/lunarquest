@@ -8,6 +8,7 @@ group :development, :test do
   gem 'nifty-generators'
   gem 'rspec-rails', '2.13.2'
   gem 'capybara', '2.1.0'
+  gem 'selenium-webdriver'
   gem 'guard-rspec', '3.0.1'
   gem 'annotate', '2.5.0'
   gem 'guard-livereload'
@@ -24,6 +25,7 @@ group :test do
   gem 'rb-inotify', '0.9.0'
   gem 'libnotify', '0.8.0'  
   gem 'faker'
+  gem 'launchy'
 end
 
 group :assets do

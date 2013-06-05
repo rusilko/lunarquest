@@ -1,15 +1,10 @@
 class WordsController < ApplicationController
   def index
     @languages = Language.all
-    # this logic should probably go into the model, but I am not expert on scopes yet...
-    if params[:query]
-      @words = if params[:language].blank?
-        Word.search(params[:query])     
-      else
-        Word.in_language(Language.find(params[:language])).search(params[:query])
-      end    
+    @words = if params[:query]
+       Word.search(params[:query])     
     else
-      @words = Word.all
+       Word.all
     end
   end
 
@@ -36,6 +31,19 @@ class WordsController < ApplicationController
 
   def create
     @word = Word.new(params[:word])
+    
+    # @meanings = []
+    # @word.translations.each do |t|
+    #   @meanings << [t.translated_word.language, t.translated_word.value]
+    # end
+
+    # @word.translations = []
+
+    # @meanings.each do |m| 
+    #   @word.add_meaning_in(m[0],m[1])
+    # end
+
+
     if @word.save
       redirect_to @word, :notice => "Successfully created word."
     else

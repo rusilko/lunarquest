@@ -1,4 +1,4 @@
-<%= simple_form_for setup(@word,action), html: { class: 'form-horizontal' } do |w_builder| %>
+<%= simple_form_for setup(@word), html: { class: 'form-horizontal' } do |w_builder| %>
 
   <% if @word.errors.any? %>
     <%= render 'word_errors' %>
@@ -6,8 +6,13 @@
 
   <fieldset>
     <legend><%= controller.action_name.capitalize %> Word</legend>
-    <%= w_builder.input :value, label: "Word" %>
-    <%= w_builder.association :language %>    
+    <% unless params[:action]=='edit' %>    
+      <%= w_builder.input :value, label: "Word", input_html: { value: word_field_starting_value(params) } %>
+    <% else %>
+      <%= w_builder.input :value, label: "Word" %>
+    <% end %>
+    <%= w_builder.association :language, prompt: "Select language"%>
+    <legend>Add/Edit translations</legend>
     <%= w_builder.simple_fields_for :translations do |t_builder| %>
       <%= render 'translation_fields', f: t_builder %>
     <% end -%>  

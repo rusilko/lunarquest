@@ -1,9 +1,9 @@
-<div>
+<div class="translation_fields">
 <%= f.simple_fields_for :translated_word, html: { class: 'form-inline' } do |builder| %>
   <%= builder.input :value, label: "Word", wrapper_html: {class: "pull-left" } %>
   <div class="control-group select required word_language">
     <div class="controls">
-      <%= builder.select :language_id, options_from_collection_for_select(Language.all, "id", "name"), prompt: "Select language" %>
+      <%= builder.select :language_id, options_from_collection_for_select(Language.all, "id", "name", builder.object.language_id), prompt: "Select language"%>
       <%= f.hidden_field :_destroy, value: "" %><%= link_to raw('<i class="icon-trash"></i>'), '#', class: "remove_word_btn"  %>
     </div>    
   </div>

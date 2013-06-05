@@ -1,14 +1,19 @@
-<% title "Translate" %>
-
+<% title "Translate", false %>
 <%= form_tag translate_words_path, class: "form-search", method: 'get' do %>
-  <%= search_field_tag :query, params[:query], class: "search-query", placeholder: 'Type in word' %>
-  <%= select_tag :language_from, 
+  <legend>Translate baby!</legend>
+    <%= label_tag "From:" %>
+    <%= select_tag :language_from, 
                  options_from_collection_for_select(@languages, "id", "name", params[:language_from]), 
-                 prompt: "From:" %>
- <%= select_tag :language_to, 
-                options_from_collection_for_select(@languages, "id", "name", params[:language_to]), 
-                prompt: "To:" %>
-  <%= submit_tag "Translate", name: nil, class: "btn btn-success" %>
+                 prompt: "Select language:" %>
+    <%= content_tag :div, class: "input-append" do %>
+      <%= search_field_tag :query, params[:query], class: "search-query", placeholder: 'Type in word' %>
+      <%= submit_tag "Translate", name: nil, class: "btn btn-success" %>
+    <% end -%>
+    <%= label_tag "To:" %>
+    <%= select_tag :language_to, 
+                  options_from_collection_for_select(@languages, "id", "name", params[:language_to]), 
+                  prompt: "Select language:" %>
+  
 <% end %>
 
 <% unless params[:query].blank? || params[:language_from].blank? || params[:language_to].blank? %>
