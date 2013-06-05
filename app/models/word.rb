@@ -55,14 +55,15 @@ class Word < ActiveRecord::Base
     wrong_translations, good_translations = [], []
     self.translations.each do |translation|
       # first check if there are two identical [words,langs] in currently analyzed form
-      if (wrong_translations+good_translations).map(&:translated_word).map(&:value).include?(translation.translated_word.value)
+      if (wrong_translations+good_translations).map(&:translated_word).
+        map { |tw| [tw.value,tw.language] }.include?([translation.translated_word.value, translation.translated_word.language])
         # set the double error virtual attr for translation 
         # (it will be proxied to translated_word in translation before_validation filter)
         translation.double_t_word_error = :same_form
         wrong_translations << translation
         next
-      end      
-      if w = Word.find_by_value(translation.translated_word.value)
+      end
+      if w = Word.find_by_value_and_language_id(translation.translated_word.value,translation.translated_word.language_id)
         # if Translation.find_by_translated_word_id_and_translated_language_id(w.id, w.language_id)
         if  Translation.translation_exists?(self, self.language, w, w.language)  
           translation.double_t_word_error = :same_language
