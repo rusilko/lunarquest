@@ -31,19 +31,6 @@ class WordsController < ApplicationController
 
   def create
     @word = Word.new(params[:word])
-    
-    # @meanings = []
-    # @word.translations.each do |t|
-    #   @meanings << [t.translated_word.language, t.translated_word.value]
-    # end
-
-    # @word.translations = []
-
-    # @meanings.each do |m| 
-    #   @word.add_meaning_in(m[0],m[1])
-    # end
-
-
     if @word.save
       redirect_to @word, :notice => "Successfully created word."
     else
